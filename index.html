@@ -53,7 +53,8 @@
   .icon-btn { width: 32px; height: 32px; border-radius: 16px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #334155; font-size: 16px; cursor: pointer; border: none; flex-shrink: 0; }
   .nav-spacer { flex: 1; }
 
-  .content { flex: 1; overflow-y: auto; padding: 8px 24px 24px; display: flex; flex-direction: column; }
+  .content { flex: 1; min-height: 0; overflow-y: auto; padding: 8px 24px 24px; display: flex; flex-direction: column; }
+  .content > * { flex-shrink: 0; }
 
   .icon-badge { width: 52px; height: 52px; border-radius: 16px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
   .icon-badge svg { width: 26px; height: 26px; }
@@ -154,7 +155,20 @@
 
   .spacer { flex: 1; }
   .footer { padding: 12px 24px 8px; flex-shrink: 0; }
-  .btn-primary { width: 100%; height: 50px; background: #0f172a; color: #f8fafc; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; margin-bottom: 10px; cursor: pointer; }
+  .btn-primary { width: 100%; height: 50px; background: #0f172a; color: #f8fafc; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; margin-bottom: 10px; cursor: pointer; position: relative; }
+  .pulse-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    border: 2px solid #0f172a;
+    animation: pulseRing 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    pointer-events: none;
+  }
+  @keyframes pulseRing {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.12); opacity: 0; }
+  }
   .btn-secondary { width: 100%; height: 50px; background: transparent; color: #475569; border: none; border-radius: 14px; font-size: 15px; font-weight: 500; cursor: pointer; }
   .home-indicator { width: 134px; height: 5px; background: #0f172a; border-radius: 3px; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); opacity: 0.85; z-index: 5; }
 
@@ -167,6 +181,21 @@
 
   /* sandbox demo tag on ssn block sheet */
   .demo-tag { font-size: 11px; font-weight: 600; color: #475569; background: #f1f5f9; padding: 3px 10px; border-radius: 6px; margin-bottom: 12px; letter-spacing: 0.03em; display: inline-block; }
+
+  .prep-list { width: 100%; text-align: left; margin-bottom: 18px; }
+  .prep-item { display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+  .prep-item:last-child { border-bottom: none; }
+  .prep-item-icon { width: 28px; height: 28px; border-radius: 8px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .prep-item-icon svg { width: 14px; height: 14px; }
+  .prep-item-body { flex: 1; min-width: 0; }
+  .prep-item-name { font-size: 14.5px; font-weight: 600; color: #1e293b; padding-top: 3px; }
+  .prep-why { margin: 0; padding: 0; }
+  .prep-why summary { display: block; list-style: none; cursor: pointer; font-size: 12.5px; font-weight: 600; color: #64748b; text-decoration: underline; text-underline-offset: 2px; margin: 4px 0 0; padding: 0; }
+  .prep-why summary::-webkit-details-marker { display: none; }
+  .prep-why summary::marker { content: ""; }
+  .prep-why-body { font-size: 12.5px; color: #64748b; line-height: 1.5; margin-top: 6px; }
+  .reassurance { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #94a3b8; line-height: 1.45; text-align: left; padding-top: 4px; }
+  .reassurance svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
 
   /* overlay sheet for SSN block */
   .sheet-scrim {
@@ -305,6 +334,20 @@
     </div>
   </div>
 
+  <!-- ACCOUNT CREATED -->
+  <div class="panel" id="panel-account-created">
+    <div class="content" style="padding-top:0;">
+      <div class="success-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <h1>Account created!</h1>
+      <p class="sub">Your identity has been verified. Add a bank account to start investing with real money.</p>
+      <div class="spacer"></div>
+    </div>
+    <div class="footer">
+      <button class="btn-primary" onclick="goTo('bankask')">Link a bank account</button>
+      <button class="btn-secondary" onclick="goTo('dashboard')">I'll do this later</button>
+    </div>
+  </div>
+
   <!-- BANK LINK ASK -->
   <div class="panel" id="panel-bankask">
     <div class="nav"><button class="icon-btn" onclick="goTo('dashboard')">‹</button></div>
@@ -330,6 +373,15 @@
     </div>
   </div>
 
+  <!-- ALL SET (brief, auto-advances) -->
+  <div class="panel" id="panel-all-set" onclick="goTo('granted')">
+    <div class="content" style="padding-top:0; align-items:center; text-align:center; justify-content:center;">
+      <div class="success-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <h1>You're all set!</h1>
+      <p class="sub">Account created and bank linked. Ready to start investing.</p>
+    </div>
+  </div>
+
   <!-- GRANTED -->
   <div class="panel" id="panel-granted">
     <div class="nav">
@@ -349,7 +401,7 @@
       <div class="status-row"><div class="status-left"><div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div><div class="status-name">Bank account</div></div><div class="status-chip">Linked</div></div>
       <div class="spacer"></div>
     </div>
-    <div class="footer"><button class="btn-primary" onclick="goTo('granted')">Transfer funds</button></div>
+    <div class="footer"><button class="btn-primary pulse-btn" onclick="goTo('granted')">Transfer funds</button></div>
   </div>
 
   <!-- REVOKE -->
@@ -391,16 +443,56 @@
         <div class="icon-badge" style="margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div>
         <div class="demo-tag">You're exploring in demo mode</div>
         <h1 style="font-size:19px;">Ready to make this real?</h1>
-        <p class="sub" style="font-size:13.5px;">To open this account for real, we're required by law to verify your identity with your Social Security number.</p>
-        <div class="accordion">
-          <details><summary>Why we need this <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">Federal law requires investment firms to verify identity before opening a brokerage account.</div></details>
-          <details><summary>How it's secured <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">Encrypted in transit and at rest, stored separately from your everyday account data.</div></details>
-          <details><summary>If your information is compromised <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">We'll notify you immediately and cover any resulting fraud on your account.</div></details>
-          <details><summary>Your rights <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">Request a copy, ask how it's been used, or close your account anytime.</div></details>
+        <p class="sub" style="font-size:13.5px;">To create an account, here are a few things we'll need:</p>
+        <div class="prep-list">
+          <div class="prep-item">
+            <div class="prep-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+            <div class="prep-item-body">
+              <div class="prep-item-name">Personal information</div>
+              <details class="prep-why">
+                <summary>Why is this required?</summary>
+                <div class="prep-why-body">Your name, date of birth, and contact info, used to create and secure your profile.</div>
+              </details>
+            </div>
+          </div>
+          <div class="prep-item">
+            <div class="prep-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v11a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg></div>
+            <div class="prep-item-body">
+              <div class="prep-item-name">Home address</div>
+              <details class="prep-why">
+                <summary>Why is this required?</summary>
+                <div class="prep-why-body">Required to open an investment account and for tax reporting purposes.</div>
+              </details>
+            </div>
+          </div>
+          <div class="prep-item">
+            <div class="prep-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+            <div class="prep-item-body">
+              <div class="prep-item-name">Employment information</div>
+              <details class="prep-why">
+                <summary>Why is this required?</summary>
+                <div class="prep-why-body">Required by financial regulations to assess what's suitable for your account.</div>
+              </details>
+            </div>
+          </div>
+          <div class="prep-item">
+            <div class="prep-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div>
+            <div class="prep-item-body">
+              <div class="prep-item-name">Social Security number</div>
+              <details class="prep-why">
+                <summary>Why is this required?</summary>
+                <div class="prep-why-body">Required by law to verify your identity before opening an investment account. Encrypted and never shared.</div>
+              </details>
+            </div>
+          </div>
+        </div>
+        <div class="reassurance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          Your privacy and security come first. Everything here stays encrypted and is never sold.
         </div>
       </div>
       <div class="sheet-footer">
-        <button class="btn-primary" onclick="verifyIdentity()">Verify identity to continue</button>
+        <button class="btn-primary" onclick="verifyIdentity()">Create an account</button>
         <button class="btn-secondary" onclick="closeSheet()">Keep exploring in demo mode</button>
       </div>
     </div>
@@ -459,12 +551,12 @@
   function verifyIdentity() {
     ssnVerified = true;
     closeSheet();
-    goTo('bankask');
+    goTo('account-created');
   }
 
   function linkBank() {
     bankLinked = true;
-    goTo('granted');
+    goTo('all-set');
   }
 
   function skipBank() {
@@ -489,6 +581,11 @@
       updateRevokeScreen();
     }
     document.getElementById('panel-' + id).classList.add('active');
+    if (id === 'all-set') {
+      setTimeout(() => {
+        if (document.getElementById('panel-all-set').classList.contains('active')) goTo('granted');
+      }, 1800);
+    }
   }
 
   function updateRevokeScreen() {
