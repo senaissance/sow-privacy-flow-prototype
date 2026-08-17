@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interactive prototype: Progressive Privacy &amp; Consent Flow</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+    padding: 32px 0;
+  }
+
+  .hint {
+    text-align: center;
+    font-size: 12.5px;
+    color: #64748b;
+    margin-bottom: 18px;
+    max-width: 340px;
+  }
+
+  .phone {
+    width: 402px;
+    height: 847px;
+    background: #ffffff;
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.18);
+  }
+
+  .status-bar { height: 54px; background: #ffffff; position: relative; z-index: 5; }
+
+  .panel {
+    position: absolute;
+    top: 54px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ffffff;
+    display: none;
+    flex-direction: column;
+  }
+  .panel.active { display: flex; }
+
+  .nav { display: flex; align-items: center; gap: 10px; padding: 4px 20px 12px; flex-shrink: 0; }
+  .icon-btn { width: 32px; height: 32px; border-radius: 16px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #334155; font-size: 16px; cursor: pointer; border: none; flex-shrink: 0; }
+  .nav-spacer { flex: 1; }
+
+  .content { flex: 1; overflow-y: auto; padding: 8px 24px 24px; display: flex; flex-direction: column; }
+
+  .icon-badge { width: 52px; height: 52px; border-radius: 16px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .icon-badge svg { width: 26px; height: 26px; }
+
+  h1 { font-size: 22px; font-weight: 600; color: #0f172a; line-height: 1.28; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .sub { font-size: 15px; color: #475569; line-height: 1.5; margin-bottom: 24px; }
+
+  .context-tag { display: inline-flex; align-self: flex-start; font-size: 12px; font-weight: 600; color: #475569; background: #f1f5f9; padding: 5px 12px; border-radius: 8px; margin-bottom: 18px; }
+
+  /* roadmap */
+  .roadmap { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 14px; padding-bottom: 26px; position: relative; }
+  .step:last-child { padding-bottom: 0; }
+  .step-marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  .step-dot { width: 36px; height: 36px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-dot svg { width: 18px; height: 18px; }
+  .step-line { width: 1px; flex: 1; background: #e2e8f0; margin-top: 4px; }
+  .step-body { padding-top: 6px; }
+  .step-title { font-size: 15.5px; font-weight: 600; color: #1e293b; margin-bottom: 4px; }
+  .step-desc { font-size: 13.5px; color: #64748b; line-height: 1.5; }
+  .step-tag { display: inline-block; font-size: 11px; font-weight: 600; color: #475569; background: #f1f5f9; padding: 2px 8px; border-radius: 6px; margin-left: 8px; vertical-align: middle; }
+
+  /* dashboard */
+  .eyebrow { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .balance { font-size: 32px; font-weight: 600; color: #0f172a; margin-bottom: 20px; }
+  .chart-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+  .chart-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .chart-label { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .chart-value { font-size: 20px; font-weight: 600; color: #0f172a; }
+  .chart-change { font-size: 12px; font-weight: 600; color: #166534; background: #f0fdf4; padding: 3px 9px; border-radius: 6px; margin-top: 2px; }
+  .chart-svg { width: 100%; height: 90px; display: block; }
+  .chart-months { display: flex; justify-content: space-between; font-size: 10.5px; color: #94a3b8; margin-top: 6px; padding: 0 2px; }
+  .range-tabs { display: flex; gap: 6px; margin-top: 14px; }
+  .range-tab { font-size: 11.5px; font-weight: 600; color: #94a3b8; padding: 5px 10px; border-radius: 8px; }
+  .range-tab.active { color: #15803d; background: #f0fdf4; }
+  .nudge-card { display: flex; align-items: flex-start; gap: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; margin-bottom: 20px; cursor: pointer; }
+  .nudge-icon { width: 32px; height: 32px; border-radius: 9px; background: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .nudge-icon svg { width: 16px; height: 16px; }
+  .nudge-title { font-size: 13.5px; font-weight: 600; color: #1e293b; margin-bottom: 3px; }
+  .nudge-text { font-size: 12.5px; color: #64748b; line-height: 1.5; margin-bottom: 8px; }
+  .nudge-link { font-size: 12.5px; font-weight: 600; color: #334155; text-decoration: underline; text-underline-offset: 2px; }
+  .section-title { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; }
+  .demo-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 1px solid #f1f5f9; }
+  .demo-row-name { font-size: 14px; font-weight: 500; color: #1e293b; }
+  .demo-row-val { font-size: 14px; color: #475569; }
+
+  /* accordion */
+  .accordion { border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; margin-bottom: 8px; width: 100%; text-align: left; }
+  details { border-bottom: 1px solid #e2e8f0; }
+  details:last-child { border-bottom: none; }
+  summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 14.5px; font-weight: 500; color: #1e293b; }
+  summary::-webkit-details-marker { display: none; }
+  .chevron { width: 16px; height: 16px; color: #94a3b8; flex-shrink: 0; }
+  .accordion-body { padding: 0 16px 16px; font-size: 13.5px; color: #64748b; line-height: 1.55; }
+
+  /* processor row */
+  .processor-row { display: flex; align-items: center; gap: 10px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; }
+  .processor-icon { width: 32px; height: 32px; border-radius: 8px; background: #0f172a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .processor-icon svg { width: 16px; height: 16px; }
+  .processor-text { font-size: 12.5px; color: #475569; line-height: 1.4; }
+  .processor-text strong { color: #1e293b; }
+
+  /* granted / status */
+  .success-badge { width: 56px; height: 56px; border-radius: 18px; background: #f0fdf4; display: flex; align-items: center; justify-content: center; margin: 4px 0 18px; }
+  .success-badge svg { width: 28px; height: 28px; }
+  .balance-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .balance-label { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+  .balance-value { font-size: 28px; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+  .balance-sub { font-size: 13px; color: #64748b; }
+  .status-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+  .status-row:last-child { border-bottom: none; }
+  .status-left { display: flex; align-items: center; gap: 10px; }
+  .status-icon { width: 30px; height: 30px; border-radius: 8px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .status-icon svg { width: 15px; height: 15px; }
+  .status-name { font-size: 14px; font-weight: 500; color: #1e293b; }
+  .status-chip { font-size: 11px; font-weight: 600; color: #166534; background: #f0fdf4; padding: 3px 9px; border-radius: 6px; }
+
+  /* revoke */
+  .access-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 24px; }
+  .access-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+  .access-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .access-row:first-child { padding-top: 0; }
+  .access-icon { width: 34px; height: 34px; border-radius: 10px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .access-icon svg { width: 17px; height: 17px; }
+  .access-body { flex: 1; }
+  .access-name { font-size: 14.5px; font-weight: 600; color: #1e293b; margin-bottom: 2px; }
+  .access-desc { font-size: 12.5px; color: #64748b; line-height: 1.45; }
+  .toggle { width: 44px; height: 26px; border-radius: 13px; background: #0f172a; position: relative; flex-shrink: 0; margin-top: 2px; cursor: pointer; transition: background 0.15s ease; }
+  .toggle::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 10px; background: #ffffff; transition: left 0.15s ease; }
+  .toggle.off { background: #cbd5e1; }
+  .toggle.on::after { left: 21px; }
+  .manage-btn { background: none; border: none; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer; flex-shrink: 0; padding: 4px 0; margin-top: 2px; }
+  .close-account-link { display: block; width: 100%; background: none; border: none; font-size: 13px; font-weight: 600; color: #94a3b8; cursor: pointer; text-align: center; padding: 14px 0 4px; }
+  .info-chip { font-size: 11px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; margin-top: 2px; white-space: nowrap; }
+  .unlink-note { font-size: 12px; color: #94a3b8; line-height: 1.5; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0; }
+  .toast { font-size: 12px; color: #166534; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; display: none; }
+  .toast.show { display: block; }
+
+  .spacer { flex: 1; }
+  .footer { padding: 12px 24px 8px; flex-shrink: 0; }
+  .btn-primary { width: 100%; height: 50px; background: #0f172a; color: #f8fafc; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; margin-bottom: 10px; cursor: pointer; }
+  .btn-secondary { width: 100%; height: 50px; background: transparent; color: #475569; border: none; border-radius: 14px; font-size: 15px; font-weight: 500; cursor: pointer; }
+  .home-indicator { width: 134px; height: 5px; background: #0f172a; border-radius: 3px; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); opacity: 0.85; z-index: 5; }
+
+  /* splash */
+  .splash-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+  .splash-mark { width: 76px; height: 76px; border-radius: 22px; background: #15803d; display: flex; align-items: center; justify-content: center; margin-bottom: 22px; box-shadow: 0 6px 16px rgba(21, 128, 61, 0.25); }
+  .splash-mark svg { width: 38px; height: 38px; }
+  .splash-wordmark { font-size: 28px; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .splash-tagline { font-size: 14px; color: #64748b; letter-spacing: 0.01em; }
+
+  /* sandbox demo tag on ssn block sheet */
+  .demo-tag { font-size: 11px; font-weight: 600; color: #475569; background: #f1f5f9; padding: 3px 10px; border-radius: 6px; margin-bottom: 12px; letter-spacing: 0.03em; display: inline-block; }
+
+  /* overlay sheet for SSN block */
+  .sheet-scrim {
+    position: absolute;
+    top: 54px; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.32);
+    display: none;
+    z-index: 10;
+  }
+  .sheet-scrim.show { display: block; }
+  .sheet {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    top: 200px;
+    background: #ffffff;
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.16);
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.25s ease;
+  }
+  .sheet-scrim.show .sheet { transform: translateY(0); }
+  .sheet-handle { width: 36px; height: 4px; background: #e2e8f0; border-radius: 2px; margin: 12px auto 0; flex-shrink: 0; }
+  .sheet-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 24px 8px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .sheet-scroll > * { flex-shrink: 0; }
+  .sheet-footer { padding: 14px 24px 8px; flex-shrink: 0; border-top: 1px solid #f1f5f9; }
+</style>
+</head>
+<body>
+
+<p class="hint">Splash advances automatically, or tap it. Then: Get started → explore the demo → try to invest for real → verify → link a bank (or skip) → check settings to revoke.</p>
+
+<div class="phone">
+  <div class="status-bar"></div>
+
+  <!-- SPLASH -->
+  <div class="panel active" id="panel-splash">
+    <div class="splash-content" onclick="goTo('roadmap')">
+      <div class="splash-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#f0fdf4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22V12"/>
+          <path d="M12 12C12 12 5 12 5 5C12 5 12 12 12 12Z"/>
+          <path d="M12 12C12 12 19 12 19 5C12 5 12 12 12 12Z"/>
+        </svg>
+      </div>
+      <div class="splash-wordmark">Sow</div>
+      <div class="splash-tagline">Investing, grown with you</div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="panel" id="panel-roadmap">
+    <div class="content" style="padding-top:12px;">
+      <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16v-4M12 8h.01"/><circle cx="12" cy="12" r="9"/></svg></div>
+      <h1>Here's what we'll ask, and why</h1>
+      <p class="sub">Before you start, here's everything we'll need from you to open an account, so nothing comes as a surprise later.</p>
+      <div class="roadmap">
+        <div class="step">
+          <div class="step-marker"><div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="step-line"></div></div>
+          <div class="step-body"><div class="step-title">Explore first</div><div class="step-desc">Try the app with a demo portfolio. No account needed yet.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-marker"><div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div><div class="step-line"></div></div>
+          <div class="step-body"><div class="step-title">Identity verification <span class="step-tag">Required</span></div><div class="step-desc">Your SSN, required by law, only when you're ready to open a real account.</div></div>
+        </div>
+        <div class="step">
+          <div class="step-marker"><div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div></div>
+          <div class="step-body"><div class="step-title">Bank linking <span class="step-tag">Optional</span></div><div class="step-desc">Only if you want to fund your account. Unlink anytime.</div></div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="footer"><button class="btn-primary" onclick="goTo('dashboard')">Get started</button></div>
+  </div>
+
+  <!-- DASHBOARD (demo, updates based on state) -->
+  <div class="panel" id="panel-dashboard">
+    <div class="nav">
+      <div class="nav-spacer"></div>
+      <button class="icon-btn" onclick="goTo('revoke')" title="Settings">⚙</button>
+    </div>
+    <div class="content" style="padding-top:0;">
+      <div class="toast" id="close-account-toast">Account closed. Your identity information has been deleted.</div>
+      <div class="eyebrow" id="dash-eyebrow">Demo portfolio</div>
+      <div class="balance">$10,482.30</div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-label">Portfolio value</div>
+            <div class="chart-value">$10,482.30</div>
+          </div>
+          <div class="chart-change">+14.2%</div>
+        </div>
+        <svg class="chart-svg" viewBox="0 0 340 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="chartFillBrand" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#15803d" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#15803d" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M10,66 L76,52 L142,60 L208,32 L274,22 L330,8 L330,100 L10,100 Z" fill="url(#chartFillBrand)"/>
+          <polyline points="10,66 76,52 142,60 208,32 274,22 330,8" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="330" cy="8" r="4" fill="#15803d"/>
+        </svg>
+        <div class="chart-months"><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span></div>
+        <div class="range-tabs">
+          <span class="range-tab">1M</span><span class="range-tab">3M</span><span class="range-tab active">6M</span><span class="range-tab">1Y</span><span class="range-tab">All</span>
+        </div>
+      </div>
+
+      <div class="nudge-card" id="nudge-invest" onclick="openSheet()">
+        <div class="nudge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div>
+        <div>
+          <div class="nudge-title">Ready to invest for real?</div>
+          <div class="nudge-text">You're exploring in demo mode. Verify your identity to open a real account.</div>
+          <a class="nudge-link">Get started →</a>
+        </div>
+      </div>
+
+      <div class="nudge-card" id="nudge-bank" style="display:none;" onclick="goTo('bankask')">
+        <div class="nudge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div>
+        <div>
+          <div class="nudge-title">No bank account linked yet</div>
+          <div class="nudge-text">Identity verified. Link a bank account anytime to start investing for real.</div>
+          <a class="nudge-link">Link bank account →</a>
+        </div>
+      </div>
+
+      <div class="section-title">Holdings</div>
+      <div class="demo-row"><span class="demo-row-name">VTI</span><span class="demo-row-val">$4,210.00</span></div>
+      <div class="demo-row"><span class="demo-row-name">AAPL</span><span class="demo-row-val">$2,890.50</span></div>
+      <div class="demo-row"><span class="demo-row-name">Cash</span><span class="demo-row-val">$3,381.80</span></div>
+      <div class="spacer"></div>
+    </div>
+  </div>
+
+  <!-- BANK LINK ASK -->
+  <div class="panel" id="panel-bankask">
+    <div class="nav"><button class="icon-btn" onclick="goTo('dashboard')">‹</button></div>
+    <div class="content">
+      <div class="context-tag">Ready to fund your account</div>
+      <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div>
+      <h1>Link a bank account to fund your investments</h1>
+      <p class="sub">Optional. You can keep exploring without it, and link one whenever you're ready.</p>
+      <div class="processor-row">
+        <div class="processor-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#f8fafc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="9" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg></div>
+        <div class="processor-text">Handled through <strong>Plaid</strong>, used by thousands of banks and investment apps. We never see or store your bank password.</div>
+      </div>
+      <div class="accordion">
+        <details><summary>Why we ask for this <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">This is how you move money into your investment account. Without it, you can still browse and use the demo.</div></details>
+        <details><summary>How it's secured <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">Your bank credentials go directly to Plaid, encrypted end-to-end. We only receive a secure token to initiate transfers you approve.</div></details>
+        <details><summary>Unlinking later <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">Disconnect anytime from settings. We'll show exactly what happens to your data.</div></details>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="footer">
+      <button class="btn-primary" onclick="linkBank()">Link bank account</button>
+      <button class="btn-secondary" onclick="skipBank()">Skip for now</button>
+    </div>
+  </div>
+
+  <!-- GRANTED -->
+  <div class="panel" id="panel-granted">
+    <div class="nav">
+      <div class="nav-spacer"></div>
+      <button class="icon-btn" onclick="goTo('revoke')" title="Settings">⚙</button>
+    </div>
+    <div class="content" style="padding-top:0;">
+      <div class="success-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <h1>You're set up to invest for real</h1>
+      <p class="sub">Your bank account is linked and your identity is verified.</p>
+      <div class="balance-card">
+        <div class="balance-label">Available to invest</div>
+        <div class="balance-value">$0.00</div>
+        <div class="balance-sub">Transfer funds from your linked account to get started</div>
+      </div>
+      <div class="status-row"><div class="status-left"><div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div><div class="status-name">Identity verification</div></div><div class="status-chip">Verified</div></div>
+      <div class="status-row"><div class="status-left"><div class="status-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div><div class="status-name">Bank account</div></div><div class="status-chip">Linked</div></div>
+      <div class="spacer"></div>
+    </div>
+    <div class="footer"><button class="btn-primary" onclick="goTo('granted')">Transfer funds</button></div>
+  </div>
+
+  <!-- REVOKE -->
+  <div class="panel" id="panel-revoke">
+    <div class="nav"><button class="icon-btn" onclick="backFromRevoke()">‹</button></div>
+    <div class="content">
+      <h1>What we have access to</h1>
+      <p class="sub">Everything you've shared, in plain language. Adjust what you can, anytime.</p>
+      <div class="toast" id="unlink-toast">Bank account unlinked. Your data has been removed.</div>
+      <p class="section-title">Your access</p>
+      <div class="access-card">
+        <div class="access-row">
+          <div class="access-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div>
+          <div class="access-body">
+            <div class="access-name">Bank account</div>
+            <div class="access-desc" id="bank-access-desc">Linked via Plaid for funding your investments. Unlinking keeps your account open in demo mode, and you can relink anytime.</div>
+          </div>
+          <button class="manage-btn" id="bank-manage-btn" onclick="handleBankManage()">Manage ›</button>
+        </div>
+        <div class="access-row">
+          <div class="access-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div>
+          <div class="access-body">
+            <div class="access-name">Identity verification</div>
+            <div class="access-desc" id="identity-access-desc">Used only for identity verification and required tax reporting. Can't be turned off while your account is open.</div>
+          </div>
+          <span class="info-chip" id="identity-action" onclick="handleIdentityManage()">On file</span>
+        </div>
+      </div>
+      <button class="close-account-link" onclick="openCloseAccountSheet()">Close account</button>
+      <div class="spacer"></div>
+    </div>
+  </div>
+
+  <!-- SSN BLOCK SHEET (overlay) -->
+  <div class="sheet-scrim" id="ssn-sheet-scrim" onclick="if(event.target===this) closeSheet()">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-scroll">
+        <div class="icon-badge" style="margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div>
+        <div class="demo-tag">You're exploring in demo mode</div>
+        <h1 style="font-size:19px;">Ready to make this real?</h1>
+        <p class="sub" style="font-size:13.5px;">To open this account for real, we're required by law to verify your identity with your Social Security number.</p>
+        <div class="accordion">
+          <details><summary>Why we need this <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">Federal law requires investment firms to verify identity before opening a brokerage account.</div></details>
+          <details><summary>How it's secured <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">Encrypted in transit and at rest, stored separately from your everyday account data.</div></details>
+          <details><summary>If your information is compromised <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">We'll notify you immediately and cover any resulting fraud on your account.</div></details>
+          <details><summary>Your rights <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary><div class="accordion-body">Request a copy, ask how it's been used, or close your account anytime.</div></details>
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <button class="btn-primary" onclick="verifyIdentity()">Verify identity to continue</button>
+        <button class="btn-secondary" onclick="closeSheet()">Keep exploring in demo mode</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNLINK CONFIRMATION SHEET -->
+  <div class="sheet-scrim" id="unlink-sheet-scrim" onclick="if(event.target===this) closeUnlinkSheet()">
+    <div class="sheet" style="top:420px;">
+      <div class="sheet-handle"></div>
+      <div class="sheet-scroll">
+        <div class="icon-badge" style="margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div>
+        <h1 style="font-size:19px;">Unlink your bank account?</h1>
+        <p class="sub" style="font-size:13.5px;">This removes our access immediately. Your bank itself isn't affected, and your investment account stays open. You can relink anytime.</p>
+      </div>
+      <div class="sheet-footer">
+        <button class="btn-primary" onclick="confirmUnlink()">Unlink bank account</button>
+        <button class="btn-secondary" onclick="closeUnlinkSheet()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSE ACCOUNT CONFIRMATION SHEET -->
+  <div class="sheet-scrim" id="close-account-sheet-scrim" onclick="if(event.target===this) closeCloseAccountSheet()">
+    <div class="sheet" style="top:400px;">
+      <div class="sheet-handle"></div>
+      <div class="sheet-scroll">
+        <div class="icon-badge" style="margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></div>
+        <h1 style="font-size:19px;">Close your account?</h1>
+        <p class="sub" style="font-size:13.5px;">This permanently closes your account. Any identity verification information on file gets deleted, per our retention policy. This can't be undone.</p>
+      </div>
+      <div class="sheet-footer">
+        <button class="btn-primary" onclick="confirmCloseAccount()">Close account</button>
+        <button class="btn-secondary" onclick="closeCloseAccountSheet()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-indicator"></div>
+</div>
+
+<script>
+  let ssnVerified = false;
+  let bankLinked = false;
+  let cameFromGranted = false;
+
+  setTimeout(() => { if (document.getElementById('panel-splash').classList.contains('active')) goTo('roadmap'); }, 1600);
+
+  function openSheet() {
+    document.getElementById('ssn-sheet-scrim').classList.add('show');
+  }
+  function closeSheet() {
+    document.getElementById('ssn-sheet-scrim').classList.remove('show');
+    document.getElementById('close-account-toast').classList.remove('show');
+  }
+
+  function verifyIdentity() {
+    ssnVerified = true;
+    closeSheet();
+    goTo('bankask');
+  }
+
+  function linkBank() {
+    bankLinked = true;
+    goTo('granted');
+  }
+
+  function skipBank() {
+    bankLinked = false;
+    updateDashboard();
+    goTo('dashboard');
+  }
+
+  function updateDashboard() {
+    document.getElementById('nudge-invest').style.display = ssnVerified ? 'none' : 'flex';
+    document.getElementById('nudge-bank').style.display = (ssnVerified && !bankLinked) ? 'flex' : 'none';
+    document.getElementById('dash-eyebrow').textContent = bankLinked ? 'Portfolio' : 'Demo portfolio';
+    document.getElementById('close-account-toast').classList.remove('show');
+  }
+
+  function goTo(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    if (id === 'dashboard') updateDashboard();
+    if (id === 'revoke') {
+      cameFromGranted = bankLinked;
+      document.getElementById('unlink-toast').classList.remove('show');
+      updateRevokeScreen();
+    }
+    document.getElementById('panel-' + id).classList.add('active');
+  }
+
+  function updateRevokeScreen() {
+    const btn = document.getElementById('bank-manage-btn');
+    const desc = document.getElementById('bank-access-desc');
+    if (bankLinked) {
+      desc.textContent = 'Linked via Plaid for funding your investments. Unlinking keeps your account open in demo mode, and you can relink anytime.';
+      btn.textContent = 'Manage ›';
+    } else {
+      desc.textContent = 'Not linked. Link a bank account anytime to start investing for real.';
+      btn.textContent = 'Link ›';
+    }
+    const idDesc = document.getElementById('identity-access-desc');
+    const idAction = document.getElementById('identity-action');
+    if (ssnVerified) {
+      idDesc.textContent = 'Used only for identity verification and required tax reporting. Can\'t be turned off while your account is open.';
+      idAction.textContent = 'On file';
+      idAction.classList.remove('manage-btn'); idAction.classList.add('info-chip');
+      idAction.style.cursor = 'default';
+    } else {
+      idDesc.textContent = 'Not verified yet. Verify anytime, or you\'ll be asked automatically when you\'re ready to open a real account.';
+      idAction.textContent = 'Verify ›';
+      idAction.classList.remove('info-chip'); idAction.classList.add('manage-btn');
+      idAction.style.cursor = 'pointer';
+    }
+  }
+
+  function handleIdentityManage() {
+    if (!ssnVerified) {
+      document.getElementById('ssn-sheet-scrim').classList.add('show');
+    }
+  }
+
+  function openCloseAccountSheet() {
+    document.getElementById('close-account-sheet-scrim').classList.add('show');
+  }
+  function closeCloseAccountSheet() {
+    document.getElementById('close-account-sheet-scrim').classList.remove('show');
+  }
+  function confirmCloseAccount() {
+    ssnVerified = false;
+    bankLinked = false;
+    closeCloseAccountSheet();
+    goTo('dashboard');
+    document.getElementById('close-account-toast').classList.add('show');
+  }
+
+  function handleBankManage() {
+    if (bankLinked) {
+      document.getElementById('unlink-sheet-scrim').classList.add('show');
+    } else {
+      goTo('bankask');
+    }
+  }
+
+  function closeUnlinkSheet() {
+    document.getElementById('unlink-sheet-scrim').classList.remove('show');
+  }
+
+  function confirmUnlink() {
+    bankLinked = false;
+    closeUnlinkSheet();
+    updateRevokeScreen();
+    document.getElementById('unlink-toast').classList.add('show');
+  }
+
+  function backFromRevoke() {
+    updateDashboard();
+    goTo(bankLinked ? 'granted' : 'dashboard');
+  }
+</script>
+
+</body>
+</html>
