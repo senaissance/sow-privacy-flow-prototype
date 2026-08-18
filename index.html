@@ -88,7 +88,7 @@
   .chart-svg { width: 100%; height: 90px; display: block; }
   .chart-months { display: flex; justify-content: space-between; font-size: 10.5px; color: #94a3b8; margin-top: 6px; padding: 0 2px; }
   .range-tabs { display: flex; gap: 6px; margin-top: 14px; }
-  .range-tab { font-size: 11.5px; font-weight: 600; color: #94a3b8; padding: 5px 10px; border-radius: 8px; }
+  .range-tab { font-size: 11.5px; font-weight: 600; color: #94a3b8; padding: 5px 10px; border-radius: 8px; cursor: pointer; }
   .range-tab.active { color: #15803d; background: #f0fdf4; }
   .nudge-card { display: flex; align-items: flex-start; gap: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; margin-bottom: 20px; cursor: pointer; }
   .nudge-icon { width: 32px; height: 32px; border-radius: 9px; background: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -97,7 +97,7 @@
   .nudge-text { font-size: 12.5px; color: #64748b; line-height: 1.5; margin-bottom: 8px; }
   .nudge-link { font-size: 12.5px; font-weight: 600; color: #334155; text-decoration: underline; text-underline-offset: 2px; }
   .section-title { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; }
-  .demo-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 1px solid #f1f5f9; }
+  .demo-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 1px solid #f1f5f9; cursor: pointer; }
   .demo-row-name { font-size: 14px; font-weight: 500; color: #1e293b; }
   .demo-row-val { font-size: 14px; color: #475569; }
 
@@ -133,7 +133,7 @@
   .status-chip { font-size: 11px; font-weight: 600; color: #166534; background: #f0fdf4; padding: 3px 9px; border-radius: 6px; }
 
   /* revoke */
-  .access-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 24px; }
+  .access-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; margin-bottom: 8px; }
   .access-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
   .access-row:last-child { border-bottom: none; padding-bottom: 0; }
   .access-row:first-child { padding-top: 0; }
@@ -147,7 +147,48 @@
   .toggle.off { background: #cbd5e1; }
   .toggle.on::after { left: 21px; }
   .manage-btn { background: none; border: none; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer; flex-shrink: 0; padding: 4px 0; margin-top: 2px; }
-  .close-account-link { display: block; width: 100%; background: none; border: none; font-size: 13px; font-weight: 600; color: #94a3b8; cursor: pointer; text-align: center; padding: 14px 0 4px; }
+  .close-account-link { display: block; width: 100%; background: none; border: none; font-size: 13px; font-weight: 600; color: #dc2626; cursor: pointer; text-align: center; padding: 4px 0; }
+  .btn-danger { width: 100%; height: 50px; background: #dc2626; color: #ffffff; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; margin-bottom: 10px; cursor: pointer; }
+
+  .link-blue { color: #2563eb; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+
+  .preaccount-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px 20px; margin-bottom: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+  .preaccount-card .icon-badge { margin-bottom: 14px; }
+  .preaccount-title { font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 6px; }
+  .preaccount-text { font-size: 13.5px; color: #64748b; line-height: 1.5; margin-bottom: 16px; max-width: 280px; }
+
+  .settings-link-row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #f1f5f9; cursor: pointer; margin-top: 8px; }
+  .settings-link-icon { width: 34px; height: 34px; border-radius: 10px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .settings-link-icon svg { width: 17px; height: 17px; }
+  .settings-link-text { flex: 1; font-size: 14.5px; font-weight: 600; color: #1e293b; }
+  .settings-link-chevron { color: #cbd5e1; font-size: 16px; }
+
+  .policy-intro { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px; }
+
+  .contact-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-top: 20px; }
+  .contact-card h3 { font-size: 15px; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+  .contact-card p { font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 14px; }
+  .contact-row { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #334155; padding: 8px 0; }
+  .contact-row svg { width: 16px; height: 16px; color: #64748b; flex-shrink: 0; }
+  .chat-entry-card { display: flex; align-items: center; gap: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-top: 10px; cursor: pointer; }
+  .chat-entry-icon { width: 34px; height: 34px; border-radius: 10px; background: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chat-entry-icon svg { width: 17px; height: 17px; }
+  .chat-entry-title { font-size: 13.5px; font-weight: 600; color: #1e293b; }
+  .chat-entry-sub { font-size: 12px; color: #94a3b8; margin-top: 1px; }
+
+  .chat-header { display: flex; align-items: center; gap: 10px; padding: 4px 24px 14px; border-bottom: 1px solid #f1f5f9; flex-shrink: 0; }
+  .chat-close-btn { margin-left: auto; width: 28px; height: 28px; border-radius: 14px; background: #f1f5f9; border: none; color: #64748b; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .chat-avatar { width: 36px; height: 36px; border-radius: 10px; background: #15803d; color: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .chat-header-name { font-size: 14px; font-weight: 600; color: #1e293b; }
+  .chat-header-status { font-size: 11.5px; color: #16a34a; margin-top: 1px; }
+  .chat-messages { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 24px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-bubble { max-width: 80%; padding: 10px 13px; border-radius: 14px; font-size: 13.5px; line-height: 1.45; }
+  .chat-bubble.bot { align-self: flex-start; background: #f1f5f9; color: #1e293b; border-bottom-left-radius: 4px; }
+  .chat-bubble.user { align-self: flex-end; background: #0f172a; color: #f8fafc; border-bottom-right-radius: 4px; }
+  .chat-input-row { display: flex; gap: 8px; padding: 12px 24px 16px; border-top: 1px solid #f1f5f9; flex-shrink: 0; }
+  .chat-input-row input { flex: 1; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 14px; font-size: 13.5px; font-family: inherit; outline: none; }
+  .chat-input-row input:focus { border-color: #94a3b8; }
+  .chat-send-btn { background: #15803d; color: #f8fafc; border: none; border-radius: 12px; padding: 0 16px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
   .info-chip { font-size: 11px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; margin-top: 2px; white-space: nowrap; }
   .unlink-note { font-size: 12px; color: #94a3b8; line-height: 1.5; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0; }
   .toast { font-size: 12px; color: #166534; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; display: none; }
@@ -227,7 +268,7 @@
 </head>
 <body>
 
-<p class="hint">Splash advances automatically, or tap it. Then: Get started → explore the demo → try to invest for real → verify → link a bank (or skip) → check settings to revoke.</p>
+<p class="hint">Splash advances automatically, or tap it. Then: Get started → explore the demo → open an account → verify → link a bank (or skip) → check settings to revoke.</p>
 
 <div class="phone">
   <div class="status-bar"></div>
@@ -260,7 +301,7 @@
         </div>
         <div class="step">
           <div class="step-marker"><div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div><div class="step-line"></div></div>
-          <div class="step-body"><div class="step-title">Identity verification <span class="step-tag">Required</span></div><div class="step-desc">Your SSN, required by law, only when you're ready to open a real account.</div></div>
+          <div class="step-body"><div class="step-title">Identity verification <span class="step-tag">Required</span></div><div class="step-desc">Your SSN, required by law, only when you're ready to open an account.</div></div>
         </div>
         <div class="step">
           <div class="step-marker"><div class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div></div>
@@ -279,7 +320,6 @@
       <button class="icon-btn" onclick="goTo('revoke')" title="Settings">⚙</button>
     </div>
     <div class="content" style="padding-top:0;">
-      <div class="toast" id="close-account-toast">Account closed. Your identity information has been deleted.</div>
       <div class="eyebrow" id="dash-eyebrow">Demo portfolio</div>
       <div class="balance">$10,482.30</div>
 
@@ -289,7 +329,7 @@
             <div class="chart-label">Portfolio value</div>
             <div class="chart-value">$10,482.30</div>
           </div>
-          <div class="chart-change">+14.2%</div>
+          <div class="chart-change" id="chart-change">+14.2%</div>
         </div>
         <svg class="chart-svg" viewBox="0 0 340 100" preserveAspectRatio="none">
           <defs>
@@ -298,21 +338,21 @@
               <stop offset="100%" stop-color="#15803d" stop-opacity="0"/>
             </linearGradient>
           </defs>
-          <path d="M10,66 L76,52 L142,60 L208,32 L274,22 L330,8 L330,100 L10,100 Z" fill="url(#chartFillBrand)"/>
-          <polyline points="10,66 76,52 142,60 208,32 274,22 330,8" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="330" cy="8" r="4" fill="#15803d"/>
+          <path id="chart-path" d="M10,66 L76,52 L142,60 L208,32 L274,22 L330,8 L330,100 L10,100 Z" fill="url(#chartFillBrand)"/>
+          <polyline id="chart-line" points="10,66 76,52 142,60 208,32 274,22 330,8" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle id="chart-dot" cx="330" cy="8" r="4" fill="#15803d"/>
         </svg>
         <div class="chart-months"><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span></div>
         <div class="range-tabs">
-          <span class="range-tab">1M</span><span class="range-tab">3M</span><span class="range-tab active">6M</span><span class="range-tab">1Y</span><span class="range-tab">All</span>
+          <span class="range-tab" onclick="setRange(this,'1M')">1M</span><span class="range-tab" onclick="setRange(this,'3M')">3M</span><span class="range-tab active" onclick="setRange(this,'6M')">6M</span><span class="range-tab" onclick="setRange(this,'1Y')">1Y</span><span class="range-tab" onclick="setRange(this,'All')">All</span>
         </div>
       </div>
 
       <div class="nudge-card" id="nudge-invest" onclick="openSheet()">
         <div class="nudge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div>
         <div>
-          <div class="nudge-title">Ready to invest for real?</div>
-          <div class="nudge-text">You're exploring in demo mode. Verify your identity to open a real account.</div>
+          <div class="nudge-title">Ready to open an account?</div>
+          <div class="nudge-text">You're exploring in demo mode. Verify your identity to open an account.</div>
           <a class="nudge-link">Get started →</a>
         </div>
       </div>
@@ -321,15 +361,15 @@
         <div class="nudge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div>
         <div>
           <div class="nudge-title">No bank account linked yet</div>
-          <div class="nudge-text">Identity verified. Link a bank account anytime to start investing for real.</div>
+          <div class="nudge-text">Identity verified. Link a bank account anytime to start investing.</div>
           <a class="nudge-link">Link bank account →</a>
         </div>
       </div>
 
       <div class="section-title">Holdings</div>
-      <div class="demo-row"><span class="demo-row-name">VTI</span><span class="demo-row-val">$4,210.00</span></div>
-      <div class="demo-row"><span class="demo-row-name">AAPL</span><span class="demo-row-val">$2,890.50</span></div>
-      <div class="demo-row"><span class="demo-row-name">Cash</span><span class="demo-row-val">$3,381.80</span></div>
+      <div class="demo-row" onclick="openHolding('VTI')"><span class="demo-row-name">VTI</span><span class="demo-row-val">$4,210.00</span></div>
+      <div class="demo-row" onclick="openHolding('AAPL')"><span class="demo-row-name">AAPL</span><span class="demo-row-val">$2,890.50</span></div>
+      <div class="demo-row" onclick="openHolding('Cash')"><span class="demo-row-name">Cash</span><span class="demo-row-val">$3,381.80</span></div>
       <div class="spacer"></div>
     </div>
   </div>
@@ -339,7 +379,7 @@
     <div class="content" style="padding-top:0;">
       <div class="success-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
       <h1>Account created!</h1>
-      <p class="sub">Your identity has been verified. Add a bank account to start investing with real money.</p>
+      <p class="sub">Your identity has been verified. Add a bank account to start investing.</p>
       <div class="spacer"></div>
     </div>
     <div class="footer">
@@ -382,6 +422,15 @@
     </div>
   </div>
 
+  <!-- ACCOUNT CLOSED (brief, auto-advances) -->
+  <div class="panel" id="panel-account-closed" onclick="goTo('dashboard')">
+    <div class="content" style="padding-top:0; align-items:center; text-align:center; justify-content:center;">
+      <div class="success-badge" style="background:#f1f5f9;"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+      <h1>Account closed</h1>
+      <p class="sub">Your identity information has been deleted. You're back in demo mode — the information shown here isn't yours.</p>
+    </div>
+  </div>
+
   <!-- GRANTED -->
   <div class="panel" id="panel-granted">
     <div class="nav">
@@ -390,7 +439,7 @@
     </div>
     <div class="content" style="padding-top:0;">
       <div class="success-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
-      <h1>You're set up to invest for real</h1>
+      <h1>You're all set to invest</h1>
       <p class="sub">Your bank account is linked and your identity is verified.</p>
       <div class="balance-card">
         <div class="balance-label">Available to invest</div>
@@ -411,26 +460,49 @@
       <h1>What we have access to</h1>
       <p class="sub">Everything you've shared, in plain language. Adjust what you can, anytime.</p>
       <div class="toast" id="unlink-toast">Bank account unlinked. Your data has been removed.</div>
-      <p class="section-title">Your access</p>
-      <div class="access-card">
-        <div class="access-row">
-          <div class="access-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div>
-          <div class="access-body">
-            <div class="access-name">Bank account</div>
-            <div class="access-desc" id="bank-access-desc">Linked via Plaid for funding your investments. Unlinking keeps your account open in demo mode, and you can relink anytime.</div>
-          </div>
-          <button class="manage-btn" id="bank-manage-btn" onclick="handleBankManage()">Manage ›</button>
+
+      <div id="preaccount-block" style="display:none;">
+        <p class="section-title">Your access</p>
+        <div class="preaccount-card">
+          <div class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16v-4M12 8h.01"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <div class="preaccount-title">You're exploring in demo mode</div>
+          <div class="preaccount-text">Create an account to verify your identity and link a bank account, so you can start transferring funds.</div>
+          <button class="btn-primary" onclick="openSheet()">Get started</button>
         </div>
-        <div class="access-row">
-          <div class="access-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div>
-          <div class="access-body">
-            <div class="access-name">Identity verification</div>
-            <div class="access-desc" id="identity-access-desc">Used only for identity verification and required tax reporting. Can't be turned off while your account is open.</div>
-          </div>
-          <span class="info-chip" id="identity-action" onclick="handleIdentityManage()">On file</span>
+        <div class="reassurance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          <span>Your privacy and security come first. Everything here stays encrypted and is never sold. <a class="link-blue" onclick="goTo('privacy-policy')">Learn more</a></span>
         </div>
       </div>
-      <button class="close-account-link" onclick="openCloseAccountSheet()">Close account</button>
+
+      <div id="access-block">
+        <p class="section-title">Your access</p>
+        <div class="access-card">
+          <div class="access-row">
+            <div class="access-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div>
+            <div class="access-body">
+              <div class="access-name">Bank account</div>
+              <div class="access-desc" id="bank-access-desc">Linked via Plaid for funding your investments. Unlinking keeps your account open in demo mode, and you can relink anytime.</div>
+            </div>
+            <button class="manage-btn" id="bank-manage-btn" onclick="handleBankManage()">Manage ›</button>
+          </div>
+          <div class="access-row">
+            <div class="access-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div>
+            <div class="access-body">
+              <div class="access-name">Identity verification</div>
+              <div class="access-desc" id="identity-access-desc">Used only for identity verification and required tax reporting. Can't be turned off while your account is open.</div>
+            </div>
+            <span class="info-chip" id="identity-action" onclick="handleIdentityManage()">On file</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="close-account-link" id="close-account-link" onclick="openCloseAccountSheet()">Close account</button>
+      <div class="settings-link-row" onclick="goTo('privacy-policy')">
+        <div class="settings-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V5l8-3z"/></svg></div>
+        <div class="settings-link-text">Privacy Policy</div>
+        <div class="settings-link-chevron">›</div>
+      </div>
       <div class="spacer"></div>
     </div>
   </div>
@@ -488,7 +560,7 @@
         </div>
         <div class="reassurance">
           <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-          Your privacy and security come first. Everything here stays encrypted and is never sold.
+          <span>Your privacy and security come first. Everything here stays encrypted and is never sold. <a class="link-blue" onclick="closeSheet(); goTo('privacy-policy')">Learn more</a></span>
         </div>
       </div>
       <div class="sheet-footer">
@@ -519,13 +591,91 @@
     <div class="sheet" style="top:400px;">
       <div class="sheet-handle"></div>
       <div class="sheet-scroll">
-        <div class="icon-badge" style="margin-top:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></div>
+        <div class="icon-badge" style="margin-top:8px; background:#fef2f2;"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></div>
         <h1 style="font-size:19px;">Close your account?</h1>
         <p class="sub" style="font-size:13.5px;">This permanently closes your account. Any identity verification information on file gets deleted, per our retention policy. This can't be undone.</p>
       </div>
       <div class="sheet-footer">
-        <button class="btn-primary" onclick="confirmCloseAccount()">Close account</button>
+        <button class="btn-danger" onclick="confirmCloseAccount()">Close account</button>
         <button class="btn-secondary" onclick="closeCloseAccountSheet()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLDING DETAIL SHEET -->
+  <div class="sheet-scrim" id="holding-sheet-scrim" onclick="if(event.target===this) closeHoldingSheet()">
+    <div class="sheet" style="top:460px;">
+      <div class="sheet-handle"></div>
+      <div class="sheet-scroll" style="align-items:flex-start; text-align:left;">
+        <div id="holding-detail-content"></div>
+      </div>
+      <div class="sheet-footer">
+        <button class="btn-secondary" onclick="closeHoldingSheet()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVACY POLICY -->
+  <div class="panel" id="panel-privacy-policy">
+    <div class="nav"><button class="icon-btn" onclick="goTo('revoke')">‹</button></div>
+    <div class="content">
+      <h1>Privacy Policy</h1>
+      <p class="policy-intro">Here's how we handle your information, in plain language.</p>
+
+      <div class="accordion">
+        <details>
+          <summary>Your rights <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary>
+          <div class="accordion-body">You can request a copy of what we have on file, ask how it's been used, or close your account at any time. Closing deletes your identity information per our retention policy.</div>
+        </details>
+        <details>
+          <summary>How your information is used <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary>
+          <div class="accordion-body">We use your information only to verify your identity, secure your account, and meet legal reporting requirements. We never sell your information to advertisers or other companies.</div>
+        </details>
+        <details>
+          <summary>What does encryption mean? <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary>
+          <div class="accordion-body">Encryption scrambles your information so only someone with the right key can read it. Even if it were intercepted, it would look like meaningless text. We encrypt your data both while it's traveling to us and while it's stored.</div>
+        </details>
+        <details>
+          <summary>Data retention & deletion <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></summary>
+          <div class="accordion-body">We keep your information only as long as your account is open, or as long as the law requires for tax and financial records. Closing your account starts the deletion process.</div>
+        </details>
+      </div>
+
+      <div class="contact-card">
+        <h3>Have more questions?</h3>
+        <p>Our team is happy to walk you through anything here, however you'd like to reach us.</p>
+        <div class="contact-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.9.35 1.79.68 2.63a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.45-1.25a2 2 0 012.11-.45c.84.33 1.73.56 2.63.68A2 2 0 0122 16.92z"/></svg> (555) 019-2830</div>
+        <div class="contact-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg> privacy@sow.com</div>
+        <div class="chat-entry-card" onclick="openChatSheet()">
+          <div class="chat-entry-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+          <div>
+            <div class="chat-entry-title">Chat with us</div>
+            <div class="chat-entry-sub">Usually replies in a few minutes</div>
+          </div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+  </div>
+
+  <!-- CHAT SHEET -->
+  <div class="sheet-scrim" id="chat-sheet-scrim" onclick="if(event.target===this) closeChatSheet()">
+    <div class="sheet" style="top:280px; display:flex; flex-direction:column;">
+      <div class="sheet-handle"></div>
+      <div class="chat-header">
+        <div class="chat-avatar">S</div>
+        <div>
+          <div class="chat-header-name">Sow Support</div>
+          <div class="chat-header-status">● Online</div>
+        </div>
+        <button class="chat-close-btn" onclick="closeChatSheet()">✕</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-bubble bot">Hi! I can help explain how your information is used and kept safe. Ask me anything about our privacy policy.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+        <button class="chat-send-btn" onclick="sendChatMessage()">Send</button>
       </div>
     </div>
   </div>
@@ -545,7 +695,6 @@
   }
   function closeSheet() {
     document.getElementById('ssn-sheet-scrim').classList.remove('show');
-    document.getElementById('close-account-toast').classList.remove('show');
   }
 
   function verifyIdentity() {
@@ -569,7 +718,6 @@
     document.getElementById('nudge-invest').style.display = ssnVerified ? 'none' : 'flex';
     document.getElementById('nudge-bank').style.display = (ssnVerified && !bankLinked) ? 'flex' : 'none';
     document.getElementById('dash-eyebrow').textContent = bankLinked ? 'Portfolio' : 'Demo portfolio';
-    document.getElementById('close-account-toast').classList.remove('show');
   }
 
   function goTo(id) {
@@ -586,37 +734,74 @@
         if (document.getElementById('panel-all-set').classList.contains('active')) goTo('granted');
       }, 1800);
     }
+    if (id === 'account-closed') {
+      setTimeout(() => {
+        if (document.getElementById('panel-account-closed').classList.contains('active')) goTo('dashboard');
+      }, 2000);
+    }
   }
 
   function updateRevokeScreen() {
+    const preBlock = document.getElementById('preaccount-block');
+    const accessBlock = document.getElementById('access-block');
+    const closeLink = document.getElementById('close-account-link');
+    if (!ssnVerified) {
+      preBlock.style.display = 'block';
+      accessBlock.style.display = 'none';
+      closeLink.style.display = 'none';
+      return;
+    }
+    preBlock.style.display = 'none';
+    accessBlock.style.display = 'block';
+    closeLink.style.display = 'block';
+
     const btn = document.getElementById('bank-manage-btn');
     const desc = document.getElementById('bank-access-desc');
     if (bankLinked) {
       desc.textContent = 'Linked via Plaid for funding your investments. Unlinking keeps your account open in demo mode, and you can relink anytime.';
       btn.textContent = 'Manage ›';
     } else {
-      desc.textContent = 'Not linked. Link a bank account anytime to start investing for real.';
+      desc.textContent = 'Not linked. Link a bank account anytime to start investing.';
       btn.textContent = 'Link ›';
     }
     const idDesc = document.getElementById('identity-access-desc');
     const idAction = document.getElementById('identity-action');
-    if (ssnVerified) {
-      idDesc.textContent = 'Used only for identity verification and required tax reporting. Can\'t be turned off while your account is open.';
-      idAction.textContent = 'On file';
-      idAction.classList.remove('manage-btn'); idAction.classList.add('info-chip');
-      idAction.style.cursor = 'default';
-    } else {
-      idDesc.textContent = 'Not verified yet. Verify anytime, or you\'ll be asked automatically when you\'re ready to open a real account.';
-      idAction.textContent = 'Verify ›';
-      idAction.classList.remove('info-chip'); idAction.classList.add('manage-btn');
-      idAction.style.cursor = 'pointer';
-    }
+    idDesc.textContent = 'Used only for identity verification and required tax reporting. Can\'t be turned off while your account is open.';
+    idAction.textContent = 'On file';
+    idAction.classList.remove('manage-btn'); idAction.classList.add('info-chip');
+    idAction.style.cursor = 'default';
   }
 
   function handleIdentityManage() {
     if (!ssnVerified) {
       document.getElementById('ssn-sheet-scrim').classList.add('show');
     }
+  }
+
+  function openChatSheet() {
+    document.getElementById('chat-sheet-scrim').classList.add('show');
+  }
+  function closeChatSheet() {
+    document.getElementById('chat-sheet-scrim').classList.remove('show');
+  }
+  function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+    const messages = document.getElementById('chat-messages');
+    const userBubble = document.createElement('div');
+    userBubble.className = 'chat-bubble user';
+    userBubble.textContent = text;
+    messages.appendChild(userBubble);
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+    setTimeout(() => {
+      const botBubble = document.createElement('div');
+      botBubble.className = 'chat-bubble bot';
+      botBubble.textContent = "Good question. You'll find more detail in the sections above, or email privacy@sow.com and our team will follow up within one business day.";
+      messages.appendChild(botBubble);
+      messages.scrollTop = messages.scrollHeight;
+    }, 700);
   }
 
   function openCloseAccountSheet() {
@@ -629,8 +814,52 @@
     ssnVerified = false;
     bankLinked = false;
     closeCloseAccountSheet();
-    goTo('dashboard');
-    document.getElementById('close-account-toast').classList.add('show');
+    goTo('account-closed');
+  }
+
+  const rangeData = {
+    '1M': { points: '10,40 76,55 142,35 208,60 274,20 330,8', change: '+4.1%' },
+    '3M': { points: '10,80 76,60 142,70 208,40 274,30 330,8', change: '+9.6%' },
+    '6M': { points: '10,66 76,52 142,60 208,32 274,22 330,8', change: '+14.2%' },
+    '1Y': { points: '10,95 76,70 142,80 208,50 274,35 330,8', change: '+22.8%' },
+    'All': { points: '10,98 76,85 142,90 208,60 274,40 330,8', change: '+38.5%' }
+  };
+  function setRange(el, key) {
+    document.querySelectorAll('.range-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const d = rangeData[key];
+    const pts = d.points.trim().split(' ');
+    document.getElementById('chart-line').setAttribute('points', d.points);
+    document.getElementById('chart-path').setAttribute('d', 'M' + pts.join(' L') + ' L330,100 L10,100 Z');
+    const last = pts[pts.length - 1].split(',');
+    document.getElementById('chart-dot').setAttribute('cx', last[0]);
+    document.getElementById('chart-dot').setAttribute('cy', last[1]);
+    document.getElementById('chart-change').textContent = d.change;
+  }
+
+  const holdingsData = {
+    VTI: { name: 'Vanguard Total Stock Market ETF', price: '$243.18', change: '+0.8% today', color: '#166534' },
+    AAPL: { name: 'Apple Inc.', price: '$227.55', change: '+1.2% today', color: '#166534' },
+    Cash: { name: 'Cash balance', price: '$3,381.80', change: 'Available to invest', color: '#64748b' }
+  };
+  function openHolding(symbol) {
+    const d = holdingsData[symbol];
+    document.getElementById('holding-detail-content').innerHTML = `
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#334155;">${symbol.slice(0,4)}</div>
+        <div>
+          <div style="font-size:17px;font-weight:600;color:#0f172a;">${symbol}</div>
+          <div style="font-size:13px;color:#64748b;">${d.name}</div>
+        </div>
+      </div>
+      <div style="font-size:26px;font-weight:600;color:#0f172a;margin-bottom:4px;">${d.price}</div>
+      <div style="font-size:13px;color:${d.color};margin-bottom:16px;">${d.change}</div>
+      <div style="font-size:12.5px;color:#94a3b8;line-height:1.5;">This is demo data, nothing here is real. Explore freely before deciding to invest.</div>
+    `;
+    document.getElementById('holding-sheet-scrim').classList.add('show');
+  }
+  function closeHoldingSheet() {
+    document.getElementById('holding-sheet-scrim').classList.remove('show');
   }
 
   function handleBankManage() {
