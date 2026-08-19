@@ -7,32 +7,34 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: #e2e8f0;
+    background: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
-    padding: 32px 0;
-  }
-
-  .hint {
-    text-align: center;
-    font-size: 12.5px;
-    color: #64748b;
-    margin-bottom: 18px;
-    max-width: 340px;
   }
 
   .phone {
-    width: 402px;
-    height: 847px;
+    width: 100%;
+    max-width: 402px;
+    height: 100vh;
     background: #ffffff;
-    border-radius: 44px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.18);
+  }
+
+  @media (min-width: 500px) {
+    body {
+      background: #e2e8f0;
+      padding: 32px 0;
+    }
+    .phone {
+      height: 847px;
+      border-radius: 44px;
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.18);
+    }
   }
 
   .status-bar { height: 54px; background: #ffffff; position: relative; z-index: 5; }
@@ -267,8 +269,6 @@
 </style>
 </head>
 <body>
-
-<p class="hint">Splash advances automatically, or tap it. Then: Get started → explore the demo → open an account → verify → link a bank (or skip) → check settings to revoke.</p>
 
 <div class="phone">
   <div class="status-bar"></div>
